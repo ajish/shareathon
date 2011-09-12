@@ -1,0 +1,36 @@
+{
+    "name": "Shareathon",
+    "version": "1.0",
+    "description": "Sharing",
+    "permissions": [
+	    "tabs",
+	    "contextMenus",
+	    "http://*/*", "https://*/*"
+    ],
+
+    "background_page": "background.html",
+    
+    "options_page": "options.html",
+    
+    
+    "content_scripts": [
+        {
+            "matches": ["http://*.facebook.com/*", "https://*.facebook.com/*","http://plus.google.com/*", "https://plus.google.com/*"],
+            "js": ["vendor/jquery.js","shareathon.js"],
+            "all_frames": false,
+            "run_at" : "document_idle"
+        }
+    ],
+
+    "icons": {
+        "16": "images/shareaholic_16x16.png",
+        "32": "images/shareaholic_32x32.png",
+        "48": "images/shareaholic_48x48.png",
+        "128": "images/shareaholic_128x128.png"
+    },
+
+    "browser_action": {
+        "default_title": "Shareaholic",
+        "default_icon": "images/shareaholic_16x16_bw.png"
+    }
+}

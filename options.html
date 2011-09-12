@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+function store(key,value)
+{
+	var type = "updateSetting" ;
+        var callback;
+        var data =  {"key" : key,"value" : value};
+        console.log("sending request..");
+        sendRequest(type ,data, callback);
+}
+
+
+function getSetting(key)
+{
+	var type = "getSetting" ;
+        var callback;
+        var data =  { key : key};
+        console.log("sending request..");
+        sendRequest(type ,data, callback);
+}
+function sendRequest(requestType,data, callback){
+        chrome.extension.sendRequest({
+                type: requestType,
+                name: data
+            },function(response) {
+                console.log(response);
+                if(typeof(callback) !== "undefined")
+                    callback(response);
+           }
+        );
+    }
+function enabledOptions(){
+    getSetting("facebook",function(response){
+        document.getElementById('enable_on_facebook').checked=response;
+    });
+    getSetting("twitter",function(response){
+        document.getElementById('enable_on_twitter').checked=response;
+    });
+    getSetting("googleplus",function(response){
+        document.getElementById('enable_on_g+').checked=response;
+    });
+		
+}
+</script>
+<title>Shareathon</title>
+<link rel="stylesheet" type="text/css" href="options_css_min.css">
+<script type="text/javascript" src="options_js_min.js"></script>
+</head>
+<body onload="enabledOptions();">
+<div id="content">
+<div id="title">
+<img src="images/shareaholic_128x128.png"
+title="Shareathon" alt="Shareathon">
+<div>Shareathon Options</div>
+</div>
+<form name="options_form" action="">
+
+<div class="option_row">
+<div class="option_name"></div>
+<div class="option_value">
+<div class="option_value_primary">
+<input type="checkbox" name="enable_on_facebook"
+id="enable_on_facebook" onclick="store('facebook',this.checked);">
+<label for="enable_on_facebook">
+Enable Sharing On Facebook
+</label>
+</div>
+<div class="option_value_primary">
+<input type="checkbox" name="enable_on_twitter" 
+id="enable_on_twitter" onclick="store('twitter',this.checked);" >
+<label for="enable_on_twitter">
+Enable Sharing On Twitter
+</label>
+</div>
+<div class="option_value_primary">
+<input type="checkbox" name="enable_on_g+"
+id="enable_on_g+" onclick="store('googleplus',this.checked);" >
+<label for="enable_on_g+">
+Enable Sharing On Google+
+</label>
+</div>
+</div>
+</div>
+<div class="buttons">
+
+</div>
+</form>
+</div>
+<script type="text/javascript">initOptionsPage();</script>
+</body>
+</html>
+
